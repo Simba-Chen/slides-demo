@@ -38,32 +38,39 @@ for(let i=0;i<allButtons.length;i++){
         $('.images').css({
             transform:'translate('+ n +'px)'
         })
-        //解决鼠标选中button的bug
-        allButtons.eq(index)
-        .addClass('red')
-        .siblings('.red').removeClass('red')
+        //解决鼠标选中button的bug       
+        activeButton(allButtons.eq(index))
     })
 }
-
 //增加自动播放功能
 var x = 0
 var num = $('.images>img').length
+playSlide(x%num)  //播放第0张
 
-var timerId = setInterval(()=>{
-    x += 1
-    allButtons.eq(x%num).trigger('click')
-        .addClass('red') //选中第几个子元素并以jQuery对象返回出来，帮助触发事件
-        .siblings('.red').removeClass('red')
-//jQuery链式操作，每次找到元素后，后面的操作就把该元素当作操作对象。
-},1500)
+var timerId 
+setTimer()
 $('.window').on('mouseenter', function(){
     window.clearInterval(timerId)
 })
 $('.window').on('mouseleave', function(){
+    setTimer()
+})
+
+
+
+function playSlide(index){
+    allButtons.eq(index).trigger('click')
+        .addClass('red') //选中第几个子元素并以jQuery对象返回出来，帮助触发事件
+        .siblings('.red').removeClass('red')//jQuery链式操作，每次找到元素后，后面的操作就把该元素当作操作对象。
+}
+function activeButton($button){
+    $button
+        .addClass('red')
+        .siblings('.red').removeClass('red')
+}
+function setTimer(){
     timerId = setInterval(()=>{
         x += 1
-        allButtons.eq(x%num).trigger('click')
-            .addClass('red') 
-            .siblings('.red').removeClass('red')
+        playSlide(x%num)
     },1500)
-})
+}
