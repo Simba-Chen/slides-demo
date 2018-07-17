@@ -14,7 +14,6 @@ $allButtons.on('click', function(message){
     $allButtons.eq(index)
     .addClass('red')
     .siblings('.red').removeClass('red')
-    console.log(index)
 })
 //增加自动播放功能
 var timerId = setInterval(()=>{
@@ -27,10 +26,13 @@ $('.window').on('mouseenter', function(){
     window.clearInterval(timerId)
 })
 $('.window').on('mouseleave', function(){
+    setTimer()
+})
+function setTimer(){
     timerId = setInterval(()=>{
         x += 1
         $allButtons.eq(x%num).trigger('click')
             .addClass('red') 
             .siblings('.red').removeClass('red')
     },1500)
-})
+}
